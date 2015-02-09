@@ -13,7 +13,7 @@ RUN apt-get update \
 
 # Install LZ4
 RUN set -x \
-	&& LZ4_VERSION=`curl "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\(.*\)".*/\1/p'`
+	&& LZ4_VERSION=`curl "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\(.*\)".*/\1/p'` \
 	&& curl -SL "https://github.com/Cyan4973/lz4/archive/$LZ4_VERSION.tar.gz" -o lz4.tar.gz \
 	&& mkdir -p /usr/src/lz4 \
 	&& tar -xf lz4.tar.gz -C /usr/src/lz4 --strip-components=1 \
@@ -25,7 +25,7 @@ RUN set -x \
 
 # Install OpenConnect Server
 RUN set -x \
-	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'`
+	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'` \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
 	&& gpg --keyserver pgp.mit.edu --recv-key 96865171 \
