@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f /etc/ocserv/server-key.pem ] || [ -f /etc/ocserv/server-cert.pem ]; then
+if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; then
 	# Check environment variables
 	if [ -z "$CA_CN" ]; then
 		CA_CN="VPN CA"
@@ -29,7 +29,7 @@ if [ ! -f /etc/ocserv/server-key.pem ] || [ -f /etc/ocserv/server-cert.pem ]; th
 	# No certification found, generate one
 	cd /etc/ocserv
 	certtool --generate-privkey --outfile ca-key.pem
-	cat << _EOF_ > ca.tmpl 
+	cat << _EOF_CA_ > ca.tmpl
 cn = "$CA_CN" 
 organization = "$CA_ORG" 
 serial = 1 
@@ -38,19 +38,17 @@ ca
 signing_key 
 cert_signing_key 
 crl_signing_key 
-_EOF_ 
-
+_EOF_CA_
 	certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca-cert.pem
 	certtool --generate-privkey --outfile server-key.pem 
-	cat << _EOF_ > server.tmpl 
+	cat << _EOF_SRV_ > server.tmpl
 cn = "$SRV_CN"
 organization = "$SRV_ORG" 
 expiration_days = $SRV_DAYS 
 signing_key 
 encryption_key #only if the generated key is an RSA one 
 tls_www_server 
-_EOF_
-
+_EOF_SRV_
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
 
 	# Create a test user
