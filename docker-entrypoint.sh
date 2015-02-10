@@ -29,26 +29,26 @@ if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; 
 	# No certification found, generate one
 	cd /etc/ocserv
 	certtool --generate-privkey --outfile ca-key.pem
-	cat << _EOF_CA_ > ca.tmpl
-cn = "$CA_CN" 
-organization = "$CA_ORG" 
-serial = 1 
-expiration_days = $CA_DAYS 
-ca 
-signing_key 
-cert_signing_key 
-crl_signing_key 
-_EOF_CA_
+	cat > ca.tmpl <<-EOCA
+	cn = "$CA_CN"
+	organization = "$CA_ORG"
+	serial = 1
+	expiration_days = $CA_DAYS
+	ca
+	signing_key
+	cert_signing_key
+	crl_signing_key
+	EOCA
 	certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca-cert.pem
 	certtool --generate-privkey --outfile server-key.pem 
-	cat << _EOF_SRV_ > server.tmpl
-cn = "$SRV_CN"
-organization = "$SRV_ORG" 
-expiration_days = $SRV_DAYS 
-signing_key 
-encryption_key #only if the generated key is an RSA one 
-tls_www_server 
-_EOF_SRV_
+	cat > server.tmpl <<-EOSRV
+	cn = "$SRV_CN"
+	organization = "$SRV_ORG"
+	expiration_days = $SRV_DAYS
+	signing_key
+	encryption_key #only if the generated key is an RSA one
+	tls_www_server
+	EOSRV
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
 
 	# Create a test user
