@@ -2,27 +2,27 @@
 
 if [ ! -f /etc/ocserv/server-key.pem ] || [ -f /etc/ocserv/server-cert.pem ]; then
 	# Check environment variables
-	if [ "$CA_CN" == "" ]; then
+	if [ -z "$CA_CN" ]; then
 		CA_CN="VPN CA"
 	fi
 
-	if [ "$CA_ORG" == "" ]; then
+	if [ -z "$CA_ORG" ]; then
 		CA_ORG="Big Corp"
 	fi
 
-	if [ "$CA_DAYS" == "" ]; then
+	if [ -z "$CA_DAYS" ]; then
 		CA_DAYS=9999
 	fi
 
-	if [ "$SRV_CN" == "" ]; then
+	if [ -z "$SRV_CN" ]; then
 		SRV_CN="www.example.com"
 	fi
 
-	if [ "$SRV_ORG" == "" ]; then
+	if [ -z "$SRV_ORG" ]; then
 		SRV_ORG="MyCompany"
 	fi
 
-	if [ "$SRV_DAYS" == "" ]; then
+	if [ -z "$SRV_DAYS" ]; then
 		SRV_DAYS=9999
 	fi
 
@@ -52,7 +52,8 @@ _EOF_
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
 
 	# Create a test user
-	if [[ ! $NO_TEST_USER ]] && [ -f /etc/ocserv/ocpasswd ]; then
+	if [ -z "$NO_TEST_USER" -a -f /etc/ocserv/ocpasswd ]; then
+		echo "Create test user 'test' with password 'test'"
 		echo "test:*:$5$DktJBFKobxCFd7wN$sn.bVw8ytyAaNamO.CvgBvkzDiFR6DaHdUzcif52KK7" > /etc/ocserv/ocpasswd
 	fi
 fi
