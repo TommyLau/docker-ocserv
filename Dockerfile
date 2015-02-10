@@ -53,7 +53,7 @@ RUN set -x \
 	&& rm -fr /tmp/route.txt
 
 COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 443
-CMD["ocserv", "-c", "/etc/ocserv/ocserv.conf", "-f"]
+CMD ["ocserv", "-c", "/etc/ocserv/ocserv.conf", "-f"]
