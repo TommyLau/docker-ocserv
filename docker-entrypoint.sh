@@ -46,7 +46,7 @@ if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; 
 	organization = "$SRV_ORG"
 	expiration_days = $SRV_DAYS
 	signing_key
-	encryption_key #only if the generated key is an RSA one
+	encryption_key
 	tls_www_server
 	EOSRV
 	certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem
