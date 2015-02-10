@@ -94,6 +94,7 @@ All the users opertaions happened while the container is running. If you used a 
 If say, you want to create a user named `tommy`, type the following command
 
 ```bash
+docker exec -ti ocserv ocpasswd -c /etc/ocserv/ocpasswd tommy
 Enter password:
 Re-enter password:
 ```
