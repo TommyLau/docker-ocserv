@@ -40,6 +40,7 @@ RUN set -x \
 	&& make clean
 
 # Setup config
+COPY route.txt /tmp/
 RUN set -x \
 	&& mkdir -p /etc/ocserv \
 	&& cp doc/sample.config /etc/ocserv/ocserv.conf \
@@ -48,46 +49,8 @@ RUN set -x \
 	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.0.0/}' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/192.168.1.2/8.8.8.8/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
-	&& cat << _EOF_ >> /etc/ocserv/ocserv.conf
-route = 8.0.0.0/255.0.0.0
-route = 58.0.0.0/255.0.0.0
-route = 23.0.0.0/255.0.0.0
-route = 117.0.0.0/255.0.0.0
-route = 199.0.0.0/255.0.0.0
-route = 190.0.0.0/255.0.0.0
-route = 198.0.0.0/255.0.0.0
-route = 173.0.0.0/255.0.0.0
-route = 174.0.0.0/255.0.0.0
-route = 168.0.0.0/255.0.0.0
-route = 69.0.0.0/255.0.0.0
-route = 128.0.0.0/255.0.0.0
-route = 107.0.0.0/255.0.0.0
-route = 109.0.0.0/255.0.0.0
-route = 101.0.0.0/255.0.0.0
-route = 141.0.0.0/255.0.0.0
-route = 192.0.0.0/255.0.0.0
-route = 72.0.0.0/255.0.0.0
-route = 176.0.0.0/255.0.0.0
-route = 78.0.0.0/255.0.0.0
-route = 73.0.0.0/255.0.0.0
-route = 74.0.0.0/255.0.0.0
-route = 208.0.0.0/255.0.0.0
-route = 205.0.0.0/255.0.0.0
-route = 206.0.0.0/255.0.0.0
-route = 210.0.0.0/255.0.0.0
-route = 220.0.0.0/255.0.0.0
-route = 216.0.0.0/255.0.0.0
-route = 54.0.0.0/255.0.0.0
-route = 50.0.0.0/255.0.0.0
-route = 59.0.0.0/255.0.0.0
-route = 63.0.0.0/255.0.0.0
-#route = 66.0.0.0/255.0.0.0
-route = 92.0.0.0/255.0.0.0
-route = 93.0.0.0/255.0.0.0
-route = 97.0.0.0/255.0.0.0
-route = 96.0.0.0/255.0.0.0
-route = 125.0.0.0/255.0.0.0
-_EOF_
+	&& cat /tmp/route.txt >> /etc/ocserv/ocserv.conf \
+	&& rm -fr /tmp/route.txt
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT["/entrypoint.sh"]
