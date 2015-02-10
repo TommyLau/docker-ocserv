@@ -43,7 +43,7 @@ All the variables to this image is optional, which means you don't have to type 
 The default values of the above environment variables:
 
 |   Variable   |     Default     |
-| : -------- : | : ----------- : |
+|:------------:|:---------------:|
 |  **CA_CN**   |      VPN CA     |
 |  **CA_ORG**  |     Big Corp    |
 | **CA_DAYS**  |       9999      |
