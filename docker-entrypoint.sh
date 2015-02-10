@@ -2,27 +2,27 @@
 
 if [ ! -f /etc/ocserv/server-key.pem ] || [ -f /etc/ocserv/server-cert.pem ]; then
 	# Check environment variables
-	if [ "$CA_CN" == ""]; then
+	if [ "$CA_CN" == "" ]; then
 		CA_CN="VPN CA"
 	fi
 
-	if [ "$CA_ORG" == ""]; then
+	if [ "$CA_ORG" == "" ]; then
 		CA_ORG="Big Corp"
 	fi
 
-	if [ "$CA_DAYS" == ""]; then
+	if [ "$CA_DAYS" == "" ]; then
 		CA_DAYS=9999
 	fi
 
-	if [ "$SRV_CN" == ""]; then
+	if [ "$SRV_CN" == "" ]; then
 		SRV_CN="www.example.com"
 	fi
 
-	if [ "$SRV_ORG" == ""]; then
+	if [ "$SRV_ORG" == "" ]; then
 		SRV_ORG="MyCompany"
 	fi
 
-	if [ "$SRV_DAYS" == ""]; then
+	if [ "$SRV_DAYS" == "" ]; then
 		SRV_DAYS=9999
 	fi
 
