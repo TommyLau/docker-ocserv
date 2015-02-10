@@ -45,7 +45,7 @@ RUN set -x \
 	&& mkdir -p /etc/ocserv \
 	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\/sample\.passwd/\/etc\/ocserv\/ocpasswd/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/\.\.\/test/\/etc\/ocserv/' /etc/ocserv/ocserv.conf \
+	&& sed -i 's/\.\.\/tests/\/etc\/ocserv/' /etc/ocserv/ocserv.conf \
 	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.0.0/}' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/192.168.1.2/8.8.8.8/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
