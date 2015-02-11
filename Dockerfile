@@ -47,7 +47,7 @@ RUN set -x \
 	&& sed -i 's/^#\(auth.*optional.*\)/\1/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\/sample\.passwd/\/etc\/ocserv\/ocpasswd/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\(max-same-clients = \)2/\110/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/\(listen-clear-file.*\)/#\2/' /etc/ocserv/ocserv.conf \
+	&& sed -i 's/\(listen-clear-file.*\)/#\1/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\.\/tests/\/etc\/ocserv/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#\(ca-cert = \).*/\1\/etc\/ocserv\/ca-cert\.pem/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#\(compression.*\)/\1/' /etc/ocserv/ocserv.conf \
