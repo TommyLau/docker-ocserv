@@ -6,6 +6,7 @@ www.google.com.hk
 www.google.sg
 www.google.co.jp
 accounts.google.com
+216.58.217.205
 plus.google.com
 play.google.com
 news.google.com
@@ -44,8 +45,10 @@ fbcdn-profile-a.akamaihd.net
 1.9.56.194
 80.239.178.49
 fbexternal-a.akamaihd.net
+184.25.56.194
 23.62.109.81
 fbcdn-sphotos-d-a.akamaihd.net
+165.254.12.34
 bit.ly
 
 # Twitter
@@ -54,6 +57,7 @@ m.twitter.com
 mobile.twitter.com
 support.twitter.com
 about.twitter.com
+199.59.148.84
 twimg.com
 abs.twimg.com
 pbs.twimg.com
@@ -83,8 +87,10 @@ telegraph-ec2proxy.instagram.com
 help.instagram.com
 blog.instagram.com
 photos-e.ak.instagram.com
+69.192.3.24
 instagramstatic-a.akamaihd.net
 igcdn-photos-h-a.akamaihd.net
+92.122.190.32
 instagramimages-a.akamaihd.net
 
 # TuneIn

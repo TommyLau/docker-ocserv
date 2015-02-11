@@ -39,6 +39,15 @@ def query_cidr(ip):
 if __name__ == "__main__":
     route_table = {}
 
+    # Read the old route tables from file
+    with open("route.txt", "r") as f:
+        for line in f:
+            l = line.strip()
+
+            if len(l) != 0 and l[0] != '#':
+                addr, mask = l.split('=')[1].strip().split('/')
+                route_table[get_decimal_ip(addr)] = (addr, mask)
+
     with open("domains.txt", "r") as f:
         for line in f:
             domain = line.strip()
