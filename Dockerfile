@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
-		autoconf autogen ca-certificates curl gcc gnutls-bin iptables \
+		autoconf autogen ca-certificates curl gcc gnutls-bin gperf iptables \
 		libdbus-1-dev libgnutls28-dev libnl-route-3-dev libpam0g-dev libreadline-dev libseccomp-dev libwrap0-dev \
 		make pkg-config xz-utils \
 # NOT FOUND?
