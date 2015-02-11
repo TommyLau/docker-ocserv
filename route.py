@@ -28,8 +28,7 @@ def get_decimal_ip(ip):
 def query_cidr(ip):
     url = "http://whois.arin.net/rest/nets;q=%s?showDetails=true&showARIN=false&ext=netref2" % ip
     f = urllib2.urlopen(url)
-    ss = f.read()
-    root = xml.etree.ElementTree.fromstring(ss)
+    root = xml.etree.ElementTree.fromstring(f.read())
     net_block = root.find("{http://www.arin.net/whoisrws/core/v1}net").find(
         "{http://www.arin.net/whoisrws/core/v1}netBlocks").find("{http://www.arin.net/whoisrws/core/v1}netBlock")
     start_address = net_block.find("{http://www.arin.net/whoisrws/core/v1}startAddress").text

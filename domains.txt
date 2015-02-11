@@ -41,7 +41,10 @@ static.xx.fbcdn.net
 scontent-a-sin.xx.fbcdn.net
 scontent-b-sin.xx.fbcdn.net
 fbcdn-profile-a.akamaihd.net
+1.9.56.194
+80.239.178.49
 fbexternal-a.akamaihd.net
+23.62.109.81
 fbcdn-sphotos-d-a.akamaihd.net
 bit.ly
 
@@ -71,8 +74,10 @@ instagram.com
 54.236.116.18
 107.23.173.176
 i.instagram.com
-54.236.180.84
+54.84.23.82
+54.84.62.9
 54.84.154.64
+54.236.180.84
 telegraph-ec2proxy.instagram.com
 54.152.147.196
 help.instagram.com
