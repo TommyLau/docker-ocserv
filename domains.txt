@@ -1,4 +1,7 @@
+# Google
 www.google.com
+74.125.200.138
+173.194.127.255
 www.google.com.hk
 www.google.sg
 www.google.co.jp
@@ -11,6 +14,8 @@ wallet.google.com
 www.gstatic.com
 ssl.gstatic.com
 lh5.googleusercontent.com
+
+# YouTube
 youtube.com
 www.youtube.com
 m.youtube.com
@@ -22,8 +27,12 @@ tc.v10.cache1.googlevideo.com
 tc.v10.cache8.googlevideo.com
 manifest.googlevideo.com
 yt3.ggpht.com
+
+# Blogger
 www.blogger.com
 googleblog.blogspot.com
+
+# Facebook
 facebook.com
 www.facebook.com
 developers.facebook.com
@@ -35,6 +44,8 @@ fbcdn-profile-a.akamaihd.net
 fbexternal-a.akamaihd.net
 fbcdn-sphotos-d-a.akamaihd.net
 bit.ly
+
+# Twitter
 www.twitter.com
 m.twitter.com
 mobile.twitter.com
@@ -45,4 +56,38 @@ abs.twimg.com
 pbs.twimg.com
 ma.twimg.com
 t.co
+
+# Wordpress
+lb.wordpress.com
+vip-lb.wordpress.com
+66.155.9.244
+76.74.255.123
+192.0.83.250
+
+# Instagram
+instagram.com
+54.209.6.86
+54.210.210.200
+54.236.116.18
+107.23.173.176
+i.instagram.com
+54.236.180.84
+54.84.154.64
+telegraph-ec2proxy.instagram.com
+54.152.147.196
+help.instagram.com
+blog.instagram.com
+photos-e.ak.instagram.com
+instagramstatic-a.akamaihd.net
+igcdn-photos-h-a.akamaihd.net
+instagramimages-a.akamaihd.net
+
+# TuneIn
+api.tunein.com
+feed.tunein.com
+api.radiotime.com
+opml.radiotime.com
+
+# Amazon AWS
+s3.amazonaws.com
 

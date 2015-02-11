@@ -44,14 +44,14 @@ if __name__ == "__main__":
         for line in f:
             domain = line.strip()
 
-            if len(domain) != 0:
+            if len(domain) != 0 and domain[0] != '#':
                 print("Processing domain [%s] " % domain),
                 ip = socket.gethostbyname(domain)
                 print("IP: %s" % ip),
                 decimal_ip = get_decimal_ip(ip)
                 exist = False
                 for t in route_table:
-                    if (t & decimal_ip) == t:
+                    if (get_decimal_ip(route_table[t][1]) & decimal_ip) == t:
                         exist = True
                         break
                 if exist:
@@ -62,7 +62,6 @@ if __name__ == "__main__":
                     print("CIDR: %s/%s" % (addr, mask))
 
     tables = sorted(route_table.items())
-    print tables
 
     with open("route.txt", "w") as f:
         for route in tables:
