@@ -102,3 +102,6 @@ opml.radiotime.com
 # Amazon AWS
 s3.amazonaws.com
 
+# Shadowsocks
+shadowsocks.org
+
