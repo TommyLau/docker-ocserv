@@ -92,6 +92,7 @@ instagramstatic-a.akamaihd.net
 igcdn-photos-h-a.akamaihd.net
 92.122.190.32
 instagramimages-a.akamaihd.net
+scontent-a.cdninstagram.com
 
 # TuneIn
 api.tunein.com
