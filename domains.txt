@@ -106,3 +106,11 @@ s3.amazonaws.com
 # Shadowsocks
 shadowsocks.org
 
+# GitHub
+github.com
+
+# BitBucket
+bitbucket.org
+
+# Gravatar
+gravatar.com
