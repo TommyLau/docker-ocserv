@@ -1,0 +1,14 @@
+# Shadowsocks
+shadowsocks.org
+
+# GitHub
+github.com
+
+# BitBucket
+bitbucket.org
+
+# Docker
+registry.hub.docker.com
+docker.io
+docker.com
+
