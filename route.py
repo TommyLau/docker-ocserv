@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+import glob
 import socket
 import xml.etree.ElementTree
 import urllib2
@@ -48,26 +50,28 @@ if __name__ == "__main__":
                 addr, mask = l.split('=')[1].strip().split('/')
                 route_table[get_decimal_ip(addr)] = (addr, mask)
 
-    with open("domains.txt", "r") as f:
-        for line in f:
-            domain = line.strip()
+    for fn in glob.glob("domain-*.txt"):
+        print("Read from file [%s]" % fn)
+        with open(fn, "r") as f:
+            for line in f:
+                domain = line.strip()
 
-            if len(domain) != 0 and domain[0] != '#':
-                print("Processing domain [%s] " % domain),
-                ip = socket.gethostbyname(domain)
-                print("IP: %s" % ip),
-                decimal_ip = get_decimal_ip(ip)
-                exist = False
-                for t in route_table:
-                    if (get_decimal_ip(route_table[t][1]) & decimal_ip) == t:
-                        exist = True
-                        break
-                if exist:
-                    print "exist, skip . . ."
-                else:
-                    addr, mask = query_cidr(ip)
-                    route_table[get_decimal_ip(addr)] = (addr, mask)
-                    print("CIDR: %s/%s" % (addr, mask))
+                if len(domain) != 0 and domain[0] != '#':
+                    print("  Processing domain [%s] " % domain),
+                    ip = socket.gethostbyname(domain)
+                    print("IP: %s" % ip),
+                    decimal_ip = get_decimal_ip(ip)
+                    exist = False
+                    for t in route_table:
+                        if (get_decimal_ip(route_table[t][1]) & decimal_ip) == t:
+                            exist = True
+                            break
+                    if exist:
+                        print "exist, skip . . ."
+                    else:
+                        addr, mask = query_cidr(ip)
+                        route_table[get_decimal_ip(addr)] = (addr, mask)
+                        print("CIDR: %s/%s" % (addr, mask))
 
     tables = sorted(route_table.items())
 
