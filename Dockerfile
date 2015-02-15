@@ -1,18 +1,32 @@
 FROM debian:jessie
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		autoconf autogen ca-certificates curl gcc gnutls-bin gperf iptables \
-		libdbus-1-dev libgnutls28-dev libnl-route-3-dev libpam0g-dev libreadline-dev libseccomp-dev libwrap0-dev \
-		make pkg-config xz-utils \
+# Install runtime packages
+RUN apt-get update && apt-get install -y gnutls-bin iptables libnl-route-3-200 libseccomp2 libwrap0 --no-install-recommends && rm -rf /var/lib/apt/lists/* 
+
 # NOT FOUND?
 # 		libfreeradius-client-dev liblz4-dev libsystemd-daemon-dev
 # Use included:
 # 		libhttp-parser-dev libpcl1-dev libprotobuf-c0-dev libtalloc-dev
-	&& rm -r /var/lib/apt/lists/*
 
-# Install LZ4
-RUN set -x \
+RUN buildDeps=" \
+		autoconf \
+		autogen \
+		ca-certificates \
+		curl \
+		gcc \
+		gperf \
+		libgnutls28-dev \
+		libnl-route-3-dev \
+		libpam0g-dev \
+		libreadline-dev \
+		libseccomp-dev \
+		libwrap0-dev \
+		make \
+		pkg-config \
+		xz-utils \
+	"; \
+	set -x \
+	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	&& LZ4_VERSION=`curl "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\(.*\)".*/\1/p'` \
 	&& curl -SL "https://github.com/Cyan4973/lz4/archive/$LZ4_VERSION.tar.gz" -o lz4.tar.gz \
 	&& mkdir -p /usr/src/lz4 \
@@ -21,10 +35,6 @@ RUN set -x \
 	&& cd /usr/src/lz4 \
 	&& make -j"$(nproc)" \
 	&& make install \
-	&& make clean
-
-# Install OpenConnect Server
-RUN set -x \
 	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'` \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
@@ -37,13 +47,16 @@ RUN set -x \
 	&& ./configure --enable-linux-namespaces \
 	&& make -j"$(nproc)" \
 	&& make install \
-	&& make clean
+	&& mkdir -p /etc/ocserv \
+	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
+	&& cd / \
+	&& rm -fr /usr/src/lz4 \
+	&& rm -fr /usr/src/ocserv \
+	&& apt-get purge -y --auto-remove $buildDeps
 
 # Setup config
 COPY route.txt /tmp/
 RUN set -x \
-	&& mkdir -p /etc/ocserv \
-	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^#\(auth.*optional.*\)/\1/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\/sample\.passwd/\/etc\/ocserv\/ocpasswd/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\(max-same-clients = \)2/\110/' /etc/ocserv/ocserv.conf \
