@@ -105,3 +105,11 @@ s3.amazonaws.com
 
 # Gravatar
 gravatar.com
+
+# Wikipedia
+en.wikipedia.org
+
+# LinkedIn
+linkedin.com
+www.linkedin.com
+static.licdn.com
