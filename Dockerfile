@@ -44,6 +44,7 @@ RUN buildDeps=" \
 	&& tar -xf ocserv.tar.xz -C /usr/src/ocserv --strip-components=1 \
 	&& rm ocserv.tar.xz* \
 	&& cd /usr/src/ocserv \
+	&& sed -i '/#define MAX_CONFIG_ENTRIES /{s/64/200/}' src/vpn.h \
 	&& ./configure --enable-linux-namespaces \
 	&& make -j"$(nproc)" \
 	&& make install \
