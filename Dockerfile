@@ -44,7 +44,6 @@ RUN buildDeps=" \
 	&& tar -xf ocserv.tar.xz -C /usr/src/ocserv --strip-components=1 \
 	&& rm ocserv.tar.xz* \
 	&& cd /usr/src/ocserv \
-	&& sed -i '/#define MAX_CONFIG_ENTRIES /{s/64/200/}' src/vpn.h \
 	&& ./configure --enable-linux-namespaces \
 	&& make -j"$(nproc)" \
 	&& make install \
@@ -58,18 +57,14 @@ RUN buildDeps=" \
 # Setup config
 COPY route.txt /tmp/
 RUN set -x \
-	&& sed -i 's/^#\(auth.*optional.*\)/\1/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\/sample\.passwd/\/etc\/ocserv\/ocpasswd/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\(max-same-clients = \)2/\110/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/\(listen-clear-file.*\)/#\1/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\.\/tests/\/etc\/ocserv/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/#\(ca-cert = \).*/\1\/etc\/ocserv\/ca-cert\.pem/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#\(compression.*\)/\1/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/#\(occtl.*\)/\1/' /etc/ocserv/ocserv.conf \
-	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.0.0/}' /etc/ocserv/ocserv.conf \
+	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.99.0/}' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/192.168.1.2/8.8.8.8/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/#\(cisco.*\)/\1/' /etc/ocserv/ocserv.conf \
+	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf \
 	&& cat /tmp/route.txt >> /etc/ocserv/ocserv.conf \
 	&& rm -fr /tmp/route.txt
 
