@@ -1,40 +1,16 @@
-FROM debian:jessie
+FROM alpine:3.2
 
 # Install runtime packages
-RUN apt-get update && apt-get install -y gnutls-bin iptables libnl-route-3-200 libseccomp2 libwrap0 openssl --no-install-recommends && rm -rf /var/lib/apt/lists/* 
-
+RUN apk update && apk add gnutls iptables libnl openssl linux-pam lz4 libintl readline sed gawk diffutils gnutls-utils; \
+	apk info | sort > /etc/runtime.txt 
 # NOT FOUND?
 # 		libfreeradius-client-dev liblz4-dev libsystemd-daemon-dev
 # Use included:
 # 		libhttp-parser-dev libpcl1-dev libprotobuf-c0-dev libtalloc-dev
 
-RUN buildDeps=" \
-		autoconf \
-		autogen \
-		ca-certificates \
-		curl \
-		gcc \
-		gperf \
-		libgnutls28-dev \
-		libnl-route-3-dev \
-		libpam0g-dev \
-		libreadline-dev \
-		libseccomp-dev \
-		libwrap0-dev \
-		make \
-		pkg-config \
-		xz-utils \
-	"; \
+RUN buildDeps="curl gcc gperf make lz4-dev gpgme xz tar g++ gnutls-dev readline-dev linux-headers"; \
 	set -x \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	&& LZ4_VERSION=`curl "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\(.*\)".*/\1/p'` \
-	&& curl -SL "https://github.com/Cyan4973/lz4/archive/$LZ4_VERSION.tar.gz" -o lz4.tar.gz \
-	&& mkdir -p /usr/src/lz4 \
-	&& tar -xf lz4.tar.gz -C /usr/src/lz4 --strip-components=1 \
-	&& rm lz4.tar.gz \
-	&& cd /usr/src/lz4 \
-	&& make -j"$(nproc)" \
-	&& make install \
+	apk update && apk add $buildDeps \
 	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'` \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
@@ -50,9 +26,10 @@ RUN buildDeps=" \
 	&& mkdir -p /etc/ocserv \
 	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
 	&& cd / \
-	&& rm -fr /usr/src/lz4 \
 	&& rm -fr /usr/src/ocserv \
-	&& apt-get purge -y --auto-remove $buildDeps
+	&& apk info | sort > /etc/build.txt \
+	&& diff /etc/build.txt /etc/runtime.txt | grep "<" | awk '{print $2}' | xargs apk del \
+	&& rm -fr /etc/build.txt && rm -fr /etc/runtime.txt
 
 # Setup config
 COPY route.txt /tmp/
@@ -61,7 +38,7 @@ RUN set -x \
 	&& sed -i 's/\(max-same-clients = \)2/\110/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/\.\.\/tests/\/etc\/ocserv/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#\(compression.*\)/\1/' /etc/ocserv/ocserv.conf \
-	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.99.0/}' /etc/ocserv/ocserv.conf \
+	&& sed -i '/^ipv4-network = /{s/192.168.1.0/192.168.199.0/}' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/192.168.1.2/8.8.8.8/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf \
