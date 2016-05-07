@@ -1,12 +1,12 @@
 FROM debian:jessie
 
 # Install runtime packages
-RUN apt-get update && apt-get install -y gnutls-bin iptables libnl-route-3-200 libseccomp2 libwrap0 openssl --no-install-recommends && rm -rf /var/lib/apt/lists/* 
+RUN apt-get update && apt-get install -y gnutls-bin iptables libev4 libnl-route-3-200 libprotobuf-c1 libseccomp2 libwrap0 openssl --no-install-recommends && rm -rf /var/lib/apt/lists/* 
 
 # NOT FOUND?
 # 		libfreeradius-client-dev liblz4-dev libsystemd-daemon-dev
 # Use included:
-# 		libhttp-parser-dev libpcl1-dev libprotobuf-c0-dev libtalloc-dev
+# 		libhttp-parser-dev libpcl1-dev libtalloc-dev
 
 RUN buildDeps=" \
 		autoconf \
@@ -15,9 +15,11 @@ RUN buildDeps=" \
 		curl \
 		gcc \
 		gperf \
+		libev-dev \
 		libgnutls28-dev \
 		libnl-route-3-dev \
 		libpam0g-dev \
+		libprotobuf-c-dev \
 		libreadline-dev \
 		libseccomp-dev \
 		libwrap0-dev \
