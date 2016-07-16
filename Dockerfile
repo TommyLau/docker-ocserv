@@ -36,7 +36,8 @@ RUN buildDeps=" \
 	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
 	&& cd / \
 	&& rm -fr /usr/src/ocserv \
-	&& apk del $buildDeps
+	&& apk del $buildDeps \
+	&& rm -rf /var/cache/apk/*
 
 # Setup config
 COPY cn-no-route.txt /tmp/
