@@ -2,6 +2,12 @@
 
 docker-ocserv is an OpenConnect VPN Server boxed in a Docker image built by [Tommy Lau](mailto:tommy@gen-new.com).
 
+## Update on July 16, 2016
+
+Thanks for [@sempr](https://github.com/sempr)'s contribution and suggestion, from now on, the [Alpine Linux](https://hub.docker.com/_/alpine/) will be used as the base image. The docker image size has been dramatically reduced from around 150MB to only 20MB.
+
+> NOTICE: You have to use Docker version 1.9.0 or later to support Alpine, DO NOT UPDATE the image if your Docker version is older than 1.9.0
+
 ## What is OpenConnect Server?
 
 [OpenConnect server (ocserv)](http://www.infradead.org/ocserv/) is an SSL VPN server. It implements the OpenConnect SSL VPN protocol, and has also (currently experimental) compatibility with clients using the [AnyConnect SSL VPN](http://www.cisco.com/c/en/us/support/security/anyconnect-vpn-client/tsd-products-support-series-home.html) protocol.

@@ -1,8 +1,5 @@
 FROM alpine:3.4
 
-# Install runtime packages
-RUN apk update && apk add gnutls gnutls-utils iptables libev libnl3 libseccomp linux-pam lz4 openssl readline sed
-
 RUN buildDeps=" \
 		curl \
 		g++ \
@@ -20,6 +17,8 @@ RUN buildDeps=" \
 		xz \
 	"; \
 	set -x \
+	&& apk update \
+	&& apk add gnutls gnutls-utils iptables libev libintl libnl3 libseccomp linux-pam lz4 openssl readline sed \
 	&& apk add $buildDeps \
 	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'` \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
