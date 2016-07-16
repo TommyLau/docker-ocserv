@@ -1,17 +1,18 @@
 FROM alpine:3.4
 
 # Install runtime packages
-RUN apk update && apk add gawk gnutls gnutls-utils iptables libev libintl libnl linux-pam lz4 openssl protobuf-c readline sed
+RUN apk update && apk add gnutls gnutls-utils iptables libev libnl3 libseccomp linux-pam lz4 openssl readline sed
 
 RUN buildDeps=" \
 		curl \
 		g++ \
-		gcc \
 		gnutls-dev \
-		gperf \
 		gpgme \
 		libev-dev \
+		libnl3-dev \
+		libseccomp-dev \
 		linux-headers \
+		linux-pam-dev \
 		lz4-dev \
 		make \
 		readline-dev \
@@ -30,7 +31,7 @@ RUN buildDeps=" \
 	&& rm ocserv.tar.xz* \
 	&& cd /usr/src/ocserv \
 	&& ./configure \
-	&& make -j"$(nproc)" \
+	&& make \
 	&& make install \
 	&& mkdir -p /etc/ocserv \
 	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
