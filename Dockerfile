@@ -1,7 +1,7 @@
 FROM alpine:3.4
 
 # Install runtime packages
-RUN apk update && apk add diffutils gawk gnutls gnutls-utils iptables libintl libnl linux-pam lz4 openssl readline sed
+RUN apk update && apk add gawk gnutls gnutls-utils iptables libev libintl libnl linux-pam lz4 openssl protobuf-c readline sed
 
 RUN buildDeps=" \
 		curl \
@@ -10,6 +10,7 @@ RUN buildDeps=" \
 		gnutls-dev \
 		gperf \
 		gpgme \
+		libev-dev \
 		linux-headers \
 		lz4-dev \
 		make \
