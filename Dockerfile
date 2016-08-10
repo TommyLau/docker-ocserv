@@ -2,6 +2,8 @@ FROM alpine:3.4
 
 MAINTAINER Tommy Lau <tommy@gen-new.com>
 
+ENV OC_VERSION=0.11.4
+
 RUN buildDeps=" \
 		curl \
 		g++ \
@@ -21,9 +23,9 @@ RUN buildDeps=" \
 	set -x \
 	&& apk add --update gnutls gnutls-utils iptables libev libintl libnl3 libseccomp linux-pam lz4 openssl readline sed \
 	&& apk add $buildDeps \
-	&& OC_VERSION=`curl "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p'` \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
+	&& gpg --keyserver pgp.mit.edu --recv-key 7F343FA7 \
 	&& gpg --keyserver pgp.mit.edu --recv-key 96865171 \
 	&& gpg --verify ocserv.tar.xz.sig \
 	&& mkdir -p /usr/src/ocserv \
@@ -51,10 +53,10 @@ RUN set -x \
 	&& sed -i 's/192.168.1.2/8.8.8.8/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf \
-    && mkdir -p /etc/ocserv/config-per-group \
+	&& mkdir -p /etc/ocserv/config-per-group \
 	&& cat /tmp/groupinfo.txt >> /etc/ocserv/ocserv.conf \
 	&& rm -fr /tmp/cn-no-route.txt \
-    && rm -fr /tmp/groupinfo.txt
+	&& rm -fr /tmp/groupinfo.txt
 
 WORKDIR /etc/ocserv
 
@@ -66,3 +68,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 443
 CMD ["ocserv", "-c", "/etc/ocserv/ocserv.conf", "-f"]
+
