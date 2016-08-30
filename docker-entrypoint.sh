@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; then
+if [ ! -f /etc/ocserv/certs/server-key.pem ] || [ ! -f /etc/ocserv/certs/server-cert.pem ]; then
 	# Check environment variables
 	if [ -z "$CA_CN" ]; then
 		CA_CN="VPN CA"
@@ -27,7 +27,8 @@ if [ ! -f /etc/ocserv/server-key.pem ] || [ ! -f /etc/ocserv/server-cert.pem ]; 
 	fi
 
 	# No certification found, generate one
-	cd /etc/ocserv
+	mkdir /etc/ocserv/certs
+	cd /etc/ocserv/certs
 	certtool --generate-privkey --outfile ca-key.pem
 	cat > ca.tmpl <<-EOCA
 	cn = "$CA_CN"
@@ -72,4 +73,3 @@ chmod 600 /dev/net/tun
 
 # Run OpennConnect Server
 exec "$@"
-
