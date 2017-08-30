@@ -2,7 +2,12 @@
 
 docker-ocserv is an OpenConnect VPN Server boxed in a Docker image built by [Tommy Lau](mailto:tommy@gen-new.com).
 
+## Update on Aug 31, 2017
+
+Update to version 0.11.8 and use Alpine 3.6 as base image
+
 ## Update on July 20,2016
+
 You can login with two group (`Route`/`ALL`) from now on.
 `Route` group means you can access China Mainland website directly and other connection will be protected by OpenConnect VPN
 `All` group means all of connection will be protected by OpenConnect VPN 
