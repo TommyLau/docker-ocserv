@@ -1,8 +1,8 @@
-FROM alpine:3.4
+FROM alpine:3.6
 
 MAINTAINER Tommy Lau <tommy@gen-new.com>
 
-ENV OC_VERSION=0.11.4
+ENV OC_VERSION=0.11.8
 
 RUN buildDeps=" \
 		curl \
@@ -21,8 +21,7 @@ RUN buildDeps=" \
 		xz \
 	"; \
 	set -x \
-	&& apk add --update gnutls gnutls-utils iptables libev libintl libnl3 libseccomp linux-pam lz4 openssl readline sed \
-	&& apk add $buildDeps \
+	&& apk add --update --virtual .build-deps $buildDeps \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
 	&& gpg --keyserver pgp.mit.edu --recv-key 7F343FA7 \
@@ -39,7 +38,14 @@ RUN buildDeps=" \
 	&& cp /usr/src/ocserv/doc/sample.config /etc/ocserv/ocserv.conf \
 	&& cd / \
 	&& rm -fr /usr/src/ocserv \
-	&& apk del $buildDeps \
+	&& runDeps="$( \
+		scanelf --needed --nobanner /usr/local/sbin/ocserv \
+			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+			| xargs -r apk info --installed \
+			| sort -u \
+		)" \
+	&& apk add --virtual .run-deps $runDeps \
+	&& apk del .build-deps \
 	&& rm -rf /var/cache/apk/*
 
 # Setup config
@@ -68,4 +74,3 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 443
 CMD ["ocserv", "-c", "/etc/ocserv/ocserv.conf", "-f"]
-
