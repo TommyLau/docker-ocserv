@@ -44,7 +44,7 @@ RUN buildDeps=" \
 			| xargs -r apk info --installed \
 			| sort -u \
 		)" \
-	&& apk add --virtual .run-deps $runDeps \
+	&& apk add --virtual .run-deps $runDeps iptables \
 	&& apk del .build-deps \
 	&& rm -rf /var/cache/apk/*
 
