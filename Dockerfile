@@ -1,8 +1,8 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 MAINTAINER Tommy Lau <tommy@gen-new.com>
 
-ENV OC_VERSION=0.11.8
+ENV OC_VERSION=0.11.11
 
 RUN buildDeps=" \
 		curl \
