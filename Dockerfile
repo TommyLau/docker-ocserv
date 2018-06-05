@@ -73,5 +73,7 @@ COPY cn-no-route.txt /etc/ocserv/config-per-group/Route
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
+RUN apk --update add readline libnl3 
+
 EXPOSE 443
 CMD ["ocserv", "-c", "/etc/ocserv/ocserv.conf", "-f"]
