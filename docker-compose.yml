@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  ocserv:
+    image: tommylau/ocserv
+    restart: always
+    container_name: ocserv
+    privileged: true
+    hostname: www.example.com
+    ports:
+      - 443:443/udp
+      - 443:443
+    volumes:
+      - "/opt/ocserv:/etc/ocserv"
+    environment:
+      - CA_CN=VPN CA
+      - CA_ORG=Big Corp
+      - CA_DAYS=9999
+      - SRV_CN=www.example.com
+      - SRV_ORG=My Company
+      - SRV_DAYS=9999
