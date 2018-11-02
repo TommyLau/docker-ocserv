@@ -1,23 +1,12 @@
 # docker-ocserv
 
-docker-ocserv is an OpenConnect VPN Server boxed in a Docker image built by [Tommy Lau](mailto:tommy@gen-new.com).
+docker-ocserv is an OpenConnect VPN Server boxed in a Docker image base on [Tommy Lau](mailto:tommy@gen-new.com).
 
-## Update on Aug 31, 2017
+## Update on 2018/11/02
 
-Update to version 0.11.8 and use Alpine 3.6 as base image
+Update to version 0.12.1 and use Alpine 3.7 as base image
 
-## Update on July 20,2016
-
-You can login with two group (`Route`/`ALL`) from now on.
-`Route` group means you can access China Mainland website directly and other connection will be protected by OpenConnect VPN
-`All` group means all of connection will be protected by OpenConnect VPN 
-
-## Update on July 16, 2016
-
-Thanks for [@sempr](https://github.com/sempr)'s contribution and suggestion, from now on, the [Alpine Linux](https://hub.docker.com/_/alpine/) will be used as the base image. The docker image size has been dramatically reduced from around 150MB to only 20MB.
-
-> NOTICE: You have to use Docker version 1.9.0 or later to support Alpine, DO NOT UPDATE the image if your Docker version is older than 1.9.0
-
+Add Frpc-0.16.0 and config to base image
 
 
 ## What is OpenConnect Server?
@@ -29,16 +18,16 @@ Thanks for [@sempr](https://github.com/sempr)'s contribution and suggestion, fro
 Get the docker image by running the following commands:
 
 ```bash
-docker pull tommylau/ocserv
+docker pull registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 Start an ocserv instance:
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -d tommylau/ocserv
+docker run --name ocserv --privileged -p 1443:443 -p 1443:443/udp -e "server_addr=<ip/domain>" -e "privilege_token=<token_on_frps>" -e "hostname_in_docker=<name_on_frpc>" -d  registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
-This will start an instance with the a test user named `test` and password is also `test`.
+This will start an instance with the a test user named `heaven` and password is also `null`.
 
 ### Environment Variables
 
@@ -74,31 +63,31 @@ The default values of the above environment variables:
 Start an instance out of the box with username `test` and password `test`
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -d tommylau/ocserv
+docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 Start an instance with server name `my.test.com`, `My Test` and `365` days
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -d tommylau/ocserv
+docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 Start an instance with CA name `My CA`, `My Corp` and `3650` days
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -d tommylau/ocserv
+docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 A totally customized instance with both CA and server certification
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -d tommylau/ocserv
+docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 Start an instance as above but without test user
 
 ```bash
-docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -e NO_TEST_USER=1 -v /some/path/to/ocpasswd:/etc/ocserv/ocpasswd -d tommylau/ocserv
+docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -e CA_CN="My CA" -e CA_ORG="My Corp" -e CA_DAYS=3650 -e SRV_CN=my.test.com -e SRV_ORG="My Test" -e SRV_DAYS=365 -e NO_TEST_USER=1 -v /some/path/to/ocpasswd:/etc/ocserv/ocpasswd -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 ```
 
 **WARNING:** The ocserv requires the ocpasswd file to start, if `NO_TEST_USER=1` is provided, there will be no ocpasswd created, which will stop the container immediately after start it. You must specific a ocpasswd file pointed to `/etc/ocserv/ocpasswd` by using the volume argument `-v` by docker as demonstrated above.
