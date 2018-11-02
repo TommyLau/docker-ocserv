@@ -54,10 +54,37 @@ if [ ! -f /etc/ocserv/certs/server-key.pem ] || [ ! -f /etc/ocserv/certs/server-
 
 	# Create a test user
 	if [ -z "$NO_TEST_USER" ] && [ ! -f /etc/ocserv/ocpasswd ]; then
-		echo "Create test user 'test' with password 'test'"
-		echo 'test:Route,All:$5$DktJBFKobxCFd7wN$sn.bVw8ytyAaNamO.CvgBvkzDiFR6DaHdUzcif52KK7' > /etc/ocserv/ocpasswd
+		echo "Create test user 'heaven' with password 'echoinheaven'"
+		echo 'heaven:Route,All:$1$fdjc.IJg$mTCHgZHlnvrf54s0At6MX.' > /etc/ocserv/ocpasswd
 	fi
 fi
+
+if [ -z "$server_addr" ]; then
+	server_addr=0.0.0.0
+fi
+if [ -z "$server_port" ]; then
+	server_port=7000
+fi
+if [ -z "$privilege_token" ]; then
+	privilege_token=12345678
+fi
+if [ -z "$login_fail_exit" ]; then
+	login_fail_exit=true
+fi
+
+if [ -z "$hostname_in_docker" ]; then
+        hostname_in_docker=hostname_in_docker
+fi
+
+sed -i 's/server_addr = 0.0.0.0/server_addr = '$server_addr'/' /etc/frp/frpc_full.ini
+sed -i 's/server_port = 7000/server_port = '$server_port'/' /etc/frp/frpc_full.ini
+sed -i 's/privilege_token = 12345678/privilege_token = '$privilege_token'/' /etc/frp/frpc_full.ini
+sed -i 's/login_fail_exit = true/login_fail_exit = '$login_fail_exit'/' /etc/frp/frpc_full.ini
+sed -i 's/hostname_in_docker/'$hostname_in_docker'/' /etc/frp/frpc_full.ini
+
+/usr/bin/frpc -c /etc/frp/frpc_full.ini &
+
+
 
 # Open ipv4 ip forward
 sysctl -w net.ipv4.ip_forward=1

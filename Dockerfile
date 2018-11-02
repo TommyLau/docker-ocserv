@@ -1,7 +1,4 @@
 FROM alpine:3.7
-
-MAINTAINER Tommy Lau <tommy@gen-new.com>
-
 ENV OC_VERSION=0.12.1
 
 RUN buildDeps=" \
@@ -21,12 +18,13 @@ RUN buildDeps=" \
 		xz \
 	"; \
 	set -x \
+	&& sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
 	&& apk add --update --virtual .build-deps $buildDeps \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
-	&& gpg --keyserver pgp.mit.edu --recv-key 7F343FA7 \
-	&& gpg --keyserver pgp.mit.edu --recv-key 96865171 \
-	&& gpg --verify ocserv.tar.xz.sig \
+#	&& gpg --keyserver pgp.mit.edu --recv-key 7F343FA7 \
+#	&& gpg --keyserver pgp.mit.edu --recv-key 96865171 \
+#	&& gpg --verify ocserv.tar.xz.sig \
 	&& mkdir -p /usr/src/ocserv \
 	&& tar -xf ocserv.tar.xz -C /usr/src/ocserv --strip-components=1 \
 	&& rm ocserv.tar.xz* \
@@ -67,10 +65,15 @@ RUN set -x \
 
 WORKDIR /etc/ocserv
 
+# Frp frp_0.16.0_linux_386.tar.gz
+COPY frpc /usr/bin/frpc
+COPY frpc_full.ini /etc/frp/frpc_full.ini
 COPY All /etc/ocserv/config-per-group/All
 COPY cn-no-route.txt /etc/ocserv/config-per-group/Route
-
 COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod a+x /usr/bin/frpc
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 443
