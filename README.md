@@ -36,7 +36,8 @@ docker run --name ocserv --privileged -p 2221:22 -p 1443:443 -p 1443:443/udp \
 -e "hostname_in_docker=test01-local"  \
 -e "ip_out_docker=192.168.1.190" \
 -e "ssh_port_out_docker=22" \
--e "TZ=Asia/Chongqing" -d \
+-e "TZ=Asia/Chongqing" \
+--restart=always -d \
 registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.8
 
 ```
