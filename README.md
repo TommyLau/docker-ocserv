@@ -61,15 +61,17 @@ All the variables to this image is optional, which means you don't have to type 
 
 `NO_TEST_USER`, while this variable is set to not empty, the `test` user will not be created. You have to create your own user with password. The default value is to create `test` user with password `test`.
 
-`server_addr`, 为frps服务器的地址,可以为IP或者domain. 此变量作用在frpc_full.ini
-`privilege_token`, 为frps服务器认证的token. 此变量作用在frpc_full.ini
-`hostname_in_docker`, 为将在frps的dashboard上显示的名称,因为在frpc_fill.ini中定义的远端端口为0,及随机端口,这里填写一个名称方便在dashboard上查找对应端口. 此变量作用在frpc_full.ini 
-`ip_out_docker`, 为运行此容器的宿主机ip,主要为了用来frp反向代理宿主机的ssh服务.此变量作用在frpc_full.ini.(可以不填)
-`ssh_port_out_docker`, 为运行此容器的宿主机端口,主要为了用来frp反向代理宿主机的ssh服务.此变量作用在frpc_full.ini.(可以不填)
+`server_addr`, 为frps服务器的地址,可以为IP或者domain. 此变量作用在frpc_full.ini.
 
+`privilege_token`, 为frps服务器认证的token. 此变量作用在frpc_full.ini.
+
+`hostname_in_docker`, 为将在frps的dashboard上显示的名称,因为在frpc_fill.ini中定义的远端端口为0,及随机端口,这里填写一个名称方便在dashboard上查找对应端口. 此变量作用在frpc_full.ini.
+
+`ip_out_docker`, 为运行此容器的宿主机ip,主要为了用来frp反向代理宿主机的ssh服务.此变量作用在frpc_full.ini.(可以不填).
+
+`ssh_port_out_docker`, 为运行此容器的宿主机端口,主要为了用来frp反向代理宿主机的ssh服务.此变量作用在frpc_full.ini.(可以不填).
 
 The default values of the above environment variables:
-
 
 |   Variable   |     Default     |
 |:------------:|:---------------:|
