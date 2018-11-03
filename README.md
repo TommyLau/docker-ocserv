@@ -30,7 +30,6 @@ docker pull registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
 Start an ocserv instance:
 
 ```bash
-<<<<<<< HEAD
 docker run --name ocserv --privileged -p 2221:22 -p 1443:443 -p 1443:443/udp \
 -e "server_addr=123.57.3.122" \
 -e "privilege_token=405520"  \
@@ -40,9 +39,6 @@ docker run --name ocserv --privileged -p 2221:22 -p 1443:443 -p 1443:443/udp \
 -e "TZ=Asia/Chongqing" -d \
 registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.8
 
-=======
-docker run --name ocserv --privileged -p 1443:443 -p 1443:443/udp -e "server_addr=<frps_ip/frps_domain>" -e "privilege_token=<token_on_frps>" -e "hostname_in_docker=<name_on_frpc>" -d  registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
->>>>>>> 110044bf2ea1c33bba1cca9183d829fa4f8572b5
 ```
 
 This will start an instance with the a test user named `heaven` and password is also `echoinheaven`.
