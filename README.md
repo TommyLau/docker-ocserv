@@ -1,6 +1,11 @@
 # docker-ocserv
+ 此容器用途：
+    通过公网环境访问企业内部服务
 
-docker-ocserv is an OpenConnect VPN Server boxed in a Docker image base on [Tommy Lau](mailto:tommy@gen-new.com).
+ 此容器包含：  
+    OpenConnect VPN Server(ocserv)： ocserv vpn server
+    FRP： FRP 内网穿透客户端
+    SSHD： 容器内部sshd服务，主要用来避免企业内部操作审计
 
 ## Update on 2018/11/03
 
@@ -46,6 +51,8 @@ This will start an instance with the a test user named `heaven` and password is 
 
 ### Environment Variables
 
+**Ocserv Variables**
+
 All the variables to this image is optional, which means you don't have to type in any environment variables, and you can have a OpenConnect Server out of the box! However, if you like to config the ocserv the way you like it, here's what you wanna know.
 
 `CA_CN`, this is the common name used to generate the CA(Certificate Authority).
@@ -62,15 +69,18 @@ All the variables to this image is optional, which means you don't have to type 
 
 `NO_TEST_USER`, while this variable is set to not empty, the `test` user will not be created. You have to create your own user with password. The default value is to create `test` user with password `test`.
 
-`server_addr`, 为frps服务器的地址,可以为IP或者domain. 此变量作用在frpc_full.ini.
+**FRP Variables**
 
-`privilege_token`, 为frps服务器认证的token. 此变量作用在frpc_full.ini.
+`server_addr`, 为frps服务器的地址,可以为IP或者domain. 此变量作用在frpc_full.ini.(必填)
 
-`hostname_in_docker`, 为将在frps的dashboard上显示的名称,因为在frpc_fill.ini中定义的远端端口为0,及随机端口,这里填写一个名称方便在dashboard上查找对应端口. 此变量作用在frpc_full.ini.
+`privilege_token`, 为frps服务器认证的token. 此变量作用在frpc_full.ini.(必填)
+
+`hostname_in_docker`, 为将在frps的dashboard上显示的名称,因为在frpc_fill.ini中定义的远端端口为0,及随机端口,这里填写一个名称方便在dashboard上查找对应端口. 此变量作用在frpc_full.ini.(必填)
 
 `ip_out_docker`, 为运行此容器的宿主机ip,主要为了用来frp反向代理宿主机或**本局域网中其他主机**的ssh服务.此变量作用在frpc_full.ini.(可以不填).
 
 `ssh_port_out_docker`, 为运行此容器的宿主机端口,主要为了用来frp反向代理宿主机的ssh服务.此变量作用在frpc_full.ini.(可以不填).
+
 
 The default values of the above environment variables:
 
@@ -88,7 +98,7 @@ The default values of the above environment variables:
 
 ### Running examples
 
-Start an instance out of the box with username `test` and password `test`
+Start an instance out of the box with username `heaven` and password `echoinheaven`
 
 ```bash
 docker run --name ocserv --privileged -p 443:443 -p 443:443/udp -d registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
