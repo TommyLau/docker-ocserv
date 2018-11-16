@@ -29,14 +29,14 @@ Add Frpc-0.16.0 and config to base image
 Get the docker image by running the following commands:
 
 ```bash
-docker pull registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.7
+docker pull registry.cn-hangzhou.aliyuncs.com/sourcegarden/ocserv-fp:v1.8
 ```
 
 Start an ocserv instance:
 
 ```bash
 docker run --name ocserv --privileged -p 2221:22 -p 1443:443 -p 1443:443/udp \
--e "server_addr=123.57.3.122" \
+-e "server_addr=123.57.3.xxx" \
 -e "privilege_token=405520"  \
 -e "hostname_in_docker=test01-local"  \
 -e "ip_out_docker=192.168.1.190" \
