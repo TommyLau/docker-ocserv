@@ -1,6 +1,6 @@
 FROM alpine:3.12.1
 
-MAINTAINER Tommy Lau <tommy@gen-new.com>
+MAINTAINER Kevin Coakley <kcoakley@sdsc.edu>
 
 ENV OC_VERSION=0.12.6
 
