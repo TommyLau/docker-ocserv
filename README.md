@@ -1,6 +1,11 @@
 # docker-ocserv
 
-docker-ocserv is an OpenConnect VPN Server boxed in a Docker image built by [Tommy Lau](mailto:tommy@gen-new.com).
+docker-ocserv is an OpenConnect VPN Server boxed in a Docker image built by [Tommy Lau](mailto:tommy@gen-new.com). 
+Maintained by Kevin Coakley (https://github.com/kevincoakley).
+
+## Update on Oct 29, 2020
+
+Update to version 0.12.6 and use Alpine 3.12.1 as base image
 
 ## Update on Aug 31, 2017
 
