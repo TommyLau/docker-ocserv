@@ -2,7 +2,7 @@ FROM alpine:3.12.1
 
 MAINTAINER Kevin Coakley <kcoakley@sdsc.edu>
 
-ENV OC_VERSION=0.12.6
+ENV OC_VERSION=1.0.1
 
 RUN buildDeps=" \
 		curl \
