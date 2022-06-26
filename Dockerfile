@@ -1,8 +1,8 @@
-FROM alpine:3.14.2
+FROM alpine:3.15.4
 
-MAINTAINER Kevin Coakley <kcoakley@sdsc.edu>
+LABEL org.opencontainers.image.authors="kcoakley@sdsc.edu"
 
-ENV OC_VERSION=1.1.3
+ENV OC_VERSION=1.1.6
 
 RUN buildDeps=" \
 		curl \
@@ -24,7 +24,8 @@ RUN buildDeps=" \
 	&& apk add --update --virtual .build-deps $buildDeps \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz" -o ocserv.tar.xz \
 	&& curl -SL "ftp://ftp.infradead.org/pub/ocserv/ocserv-$OC_VERSION.tar.xz.sig" -o ocserv.tar.xz.sig \
-	&& gpg --keyserver keys.gnupg.net --recv-key 96865171 \
+	&& curl -SL "http://ocserv.gitlab.io/www/96865171.asc" -o 96865171.asc \
+	&& gpg --import 96865171.asc \
 	&& gpg --verify ocserv.tar.xz.sig \
 	&& mkdir -p /usr/src/ocserv \
 	&& tar -xf ocserv.tar.xz -C /usr/src/ocserv --strip-components=1 \
